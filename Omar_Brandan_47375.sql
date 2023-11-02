@@ -20,7 +20,7 @@ ALTER TABLE Cliente MODIFY telefono VARCHAR(10) not null;
 ALTER TABLE Cliente MODIFY codigo_postal VARCHAR(10);
 ALTER TABLE Cliente MODIFY sexo VARCHAR(20);
 
-DROP TABLE Cliente;
+-- DROP TABLE Cliente;
 
 CREATE TABLE IF NOT EXISTS Delivery(
 DeliveryID int not null auto_increment comment 'Clave primaria Delivery',
@@ -43,7 +43,7 @@ FOREIGN KEY(DeliveryID) REFERENCES Delivery(DeliveryID)
 
 SELECT * FROM Orden;
 
-DROP TABLE Orden;
+-- DROP TABLE Orden;
 
 CREATE TABLE IF NOT EXISTS Categoria(
 CategoriaID int not null auto_increment comment 'Clave primaria Categoría',
@@ -53,7 +53,7 @@ PRIMARY KEY(CategoriaID)
 
 SELECT * FROM Categoria;
 
-DROP TABLE Categoria;
+-- DROP TABLE Categoria;
 
 CREATE TABLE IF NOT EXISTS Producto(
 ProductoID int not null auto_increment comment 'Clave primaria Producto',
@@ -65,7 +65,7 @@ FOREIGN KEY(CategoriaID) REFERENCES Categoria(CategoriaID)
 
 SELECT * FROM Producto;
 
-DROP TABLE Producto;
+-- DROP TABLE Producto;
 
 
 -- Generación de datos: Cliente
