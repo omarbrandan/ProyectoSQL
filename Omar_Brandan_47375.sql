@@ -46,9 +46,11 @@ FOREIGN KEY(ProductoID) REFERENCES Producto(ProductoID)
 ALTER TABLE Orden add constraint FK_ORDEN_PRODUCTO
 	foreign key(ProductoID) references Producto(ProductoID) ON DELETE CASCADE;
 
+ALTER TABLE Orden ADD Cantidad float not null;
+
 SELECT * FROM Orden;
 
-DROP TABLE Orden;
+-- DROP TABLE Orden;
 
 CREATE TABLE IF NOT EXISTS Categoria(
 CategoriaID int not null auto_increment comment 'Clave primaria Categoría',
@@ -67,6 +69,8 @@ CategoriaID int not null comment 'Categoría',
 PRIMARY KEY(ProductoID),
 FOREIGN KEY(CategoriaID) REFERENCES Categoria(CategoriaID)
 ) engine=InnoDB default charset=latin1 comment='tabla de producto';
+
+ALTER TABLE Producto ADD Costo_Producto float;
 
 SELECT * FROM Producto;
 
@@ -232,6 +236,57 @@ insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID) values (48
 insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID) values (49, '2023-03-20', 49, 49, 9);
 insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID) values (50, '2023-07-30', 50, 50, 1);
 
+update Orden set Cantidad = 1 where OrdenID = 1;
+update Orden set Cantidad = 10 where OrdenID = 2;
+update Orden set Cantidad = 16 where OrdenID = 3;
+update Orden set Cantidad = 7 where OrdenID = 4;
+update Orden set Cantidad = 17 where OrdenID = 5;
+update Orden set Cantidad = 3 where OrdenID = 6;
+update Orden set Cantidad = 9 where OrdenID = 7;
+update Orden set Cantidad = 6 where OrdenID = 8;
+update Orden set Cantidad = 18 where OrdenID = 9;
+update Orden set Cantidad = 7 where OrdenID = 10;
+update Orden set Cantidad = 17 where OrdenID = 11;
+update Orden set Cantidad = 12 where OrdenID = 12;
+update Orden set Cantidad = 13 where OrdenID = 13;
+update Orden set Cantidad = 18 where OrdenID = 14;
+update Orden set Cantidad = 15 where OrdenID = 15;
+update Orden set Cantidad = 14 where OrdenID = 16;
+update Orden set Cantidad = 2 where OrdenID = 17;
+update Orden set Cantidad = 2 where OrdenID = 18;
+update Orden set Cantidad = 7 where OrdenID = 19;
+update Orden set Cantidad = 4 where OrdenID = 20;
+update Orden set Cantidad = 10 where OrdenID = 21;
+update Orden set Cantidad = 20 where OrdenID = 22;
+update Orden set Cantidad = 17 where OrdenID = 23;
+update Orden set Cantidad = 5 where OrdenID = 24;
+update Orden set Cantidad = 1 where OrdenID = 25;
+update Orden set Cantidad = 20 where OrdenID = 26;
+update Orden set Cantidad = 12 where OrdenID = 27;
+update Orden set Cantidad = 16 where OrdenID = 28;
+update Orden set Cantidad = 14 where OrdenID = 29;
+update Orden set Cantidad = 5 where OrdenID = 30;
+update Orden set Cantidad = 9 where OrdenID = 31;
+update Orden set Cantidad = 10 where OrdenID = 32;
+update Orden set Cantidad = 20 where OrdenID = 33;
+update Orden set Cantidad = 2 where OrdenID = 34;
+update Orden set Cantidad = 3 where OrdenID = 35;
+update Orden set Cantidad = 2 where OrdenID = 36;
+update Orden set Cantidad = 12 where OrdenID = 37;
+update Orden set Cantidad = 15 where OrdenID = 38;
+update Orden set Cantidad = 4 where OrdenID = 39;
+update Orden set Cantidad = 7 where OrdenID = 40;
+update Orden set Cantidad = 15 where OrdenID = 41;
+update Orden set Cantidad = 15 where OrdenID = 42;
+update Orden set Cantidad = 10 where OrdenID = 43;
+update Orden set Cantidad = 2 where OrdenID = 44;
+update Orden set Cantidad = 14 where OrdenID = 45;
+update Orden set Cantidad = 20 where OrdenID = 46;
+update Orden set Cantidad = 10 where OrdenID = 47;
+update Orden set Cantidad = 2 where OrdenID = 48;
+update Orden set Cantidad = 1 where OrdenID = 49;
+update Orden set Cantidad = 20 where OrdenID = 50;
+
 -- Generación de datos: Categoria
 
 insert into Categoria (CategoriaID, Tipo) values (1, 'Platos preparados');
@@ -252,6 +307,54 @@ insert into Producto (ProductoID, Nombre, CategoriaID) values (9, 'Empanadas con
 insert into Producto (ProductoID, Nombre, CategoriaID) values (10, 'Sandwichs congeladas', 3);
 insert into Producto (ProductoID, Nombre, CategoriaID) values (11, 'Calzones congeladas', 3);
 insert into Producto (ProductoID, Nombre, CategoriaID) values (12, 'Carnes congeladas', 3);
+
+update Producto 
+set Costo_Producto = 3
+where ProductoID = 1;
+
+update Producto 
+set Costo_Producto = 4
+where ProductoID = 2;
+
+update Producto 
+set Costo_Producto = 7
+where ProductoID = 3;
+
+update Producto 
+set Costo_Producto = 9
+where ProductoID = 4;
+
+update Producto 
+set Costo_Producto = 2
+where ProductoID = 5;
+
+update Producto 
+set Costo_Producto = 3
+where ProductoID = 6;
+
+update Producto 
+set Costo_Producto = 6
+where ProductoID = 7;
+
+update Producto 
+set Costo_Producto = 8
+where ProductoID = 8;
+
+update Producto 
+set Costo_Producto = 1.5
+where ProductoID = 9;
+
+update Producto 
+set Costo_Producto = 2.5
+where ProductoID = 10;
+
+update Producto 
+set Costo_Producto = 5.5
+where ProductoID = 11;
+
+update Producto 
+set Costo_Producto = 7.5
+where ProductoID = 12;
 
 -- Vistas
 
@@ -306,3 +409,43 @@ group by P.Nombre
 );
 
 SELECT * FROM PROYECTO_FINAL.VW_PRODUCTO_ORDEN_COUNT;
+
+-- Function (1)
+
+DELIMITER $$ 
+CREATE FUNCTION FN_CALCULAR_MONTO( P_CANTIDAD INT ,
+								   P_COSTO INT)
+RETURNS FLOAT 
+DETERMINISTIC                             
+BEGIN 
+
+    DECLARE V_RESULTADO FLOAT ;
+    SET  V_RESULTADO = (P_CANTIDAD * P_COSTO);
+  RETURN   V_RESULTADO ;
+
+END$$
+DELIMITER ;         
+
+
+SELECT FN_CALCULAR_MONTO(7, 8) AS V_RESULTADO;
+
+-- Function (2)
+
+DROP FUNCTION IF EXISTS FN_TOTAL_MONTO_ORDENES_IGUALES;
+
+DELIMITER $$ 
+CREATE FUNCTION FN_CALCULAR_TOTAL_ORDENES_IGUALES( P_CANTIDAD INT ,
+								                   P_COSTO INT,
+                                                   P_ORDENES INT)
+RETURNS FLOAT 
+DETERMINISTIC                             
+BEGIN 
+
+    DECLARE V_TOTAL FLOAT ;
+    SET  V_TOTAL = ((P_CANTIDAD * P_COSTO) * P_ORDENES);
+  RETURN   V_TOTAL ;
+
+END$$
+DELIMITER ;   
+
+SELECT FN_CALCULAR_TOTAL_ORDENES_IGUALES(7, 8, 3) AS V_TOTAL;
