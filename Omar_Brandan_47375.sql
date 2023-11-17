@@ -1,5 +1,5 @@
-DROP SCHEMA IF EXISTS PROYECTO_FINAL;
-CREATE SCHEMA PROYECTO_FINAL; 
+-- DROP SCHEMA IF EXISTS PROYECTO_FINAL;
+-- CREATE SCHEMA PROYECTO_FINAL; 
 USE PROYECTO_FINAL;
 
 create table if not exists Cliente (
@@ -14,7 +14,7 @@ sexo char(1) not null,
 primary key(ClienteID)
 ) engine=InnoDB default charset=latin1 comment='tabla de clientes';
 
-select * from Cliente;
+-- select * from Cliente;
 
 ALTER TABLE Cliente MODIFY telefono VARCHAR(10) not null;
 ALTER TABLE Cliente MODIFY codigo_postal VARCHAR(10);
@@ -29,7 +29,32 @@ Estado VARCHAR(50) comment 'Estado del delivery',
 PRIMARY KEY(DeliveryID)
 ) engine=InnoDB default charset=latin1 comment='tabla de deliverys';
 
-SELECT * FROM Delivery;
+-- SELECT * FROM Delivery;
+
+CREATE TABLE IF NOT EXISTS Categoria(
+CategoriaID int not null auto_increment comment 'Clave primaria Categoría',
+Tipo varchar(100) comment 'Tipo de categoría',
+PRIMARY KEY(CategoriaID)
+) engine=InnoDB default charset=latin1 comment='tabla de categorías';
+
+-- SELECT * FROM Categoria;
+
+-- DROP TABLE Categoria;
+
+CREATE TABLE IF NOT EXISTS Producto(
+ProductoID int not null auto_increment comment 'Clave primaria Producto',
+Nombre varchar(100) comment 'Nombre de producto',
+CategoriaID int not null comment 'Categoría',
+PRIMARY KEY(ProductoID),
+FOREIGN KEY(CategoriaID) REFERENCES Categoria(CategoriaID)
+) engine=InnoDB default charset=latin1 comment='tabla de producto';
+
+ALTER TABLE Producto ADD Costo_Producto float;
+ALTER TABLE Producto RENAME COLUMN Costo_Producto TO Costo;
+
+-- SELECT * FROM Producto;
+
+-- DROP TABLE Producto;
 
 CREATE TABLE IF NOT EXISTS Orden(
 OrdenID int not null auto_increment comment 'Clave primaria Orden',
@@ -48,36 +73,11 @@ ALTER TABLE Orden add constraint FK_ORDEN_PRODUCTO
 
 ALTER TABLE Orden ADD Cantidad float not null;
 
-SELECT * FROM Orden;
+-- SELECT * FROM Orden;
 
 -- DROP TABLE Orden;
 
-CREATE TABLE IF NOT EXISTS Categoria(
-CategoriaID int not null auto_increment comment 'Clave primaria Categoría',
-Tipo varchar(100) comment 'Tipo de categoría',
-PRIMARY KEY(CategoriaID)
-) engine=InnoDB default charset=latin1 comment='tabla de categorías';
-
-SELECT * FROM Categoria;
-
--- DROP TABLE Categoria;
-
-CREATE TABLE IF NOT EXISTS Producto(
-ProductoID int not null auto_increment comment 'Clave primaria Producto',
-Nombre varchar(100) comment 'Nombre de producto',
-CategoriaID int not null comment 'Categoría',
-PRIMARY KEY(ProductoID),
-FOREIGN KEY(CategoriaID) REFERENCES Categoria(CategoriaID)
-) engine=InnoDB default charset=latin1 comment='tabla de producto';
-
-ALTER TABLE Producto ADD Costo_Producto float;
-
-SELECT * FROM Producto;
-
--- DROP TABLE Producto;
-
-
--- Generación de datos: Cliente
+/* Generación de datos: Cliente */
 
 insert into Cliente (ClienteID, nombre, apellido, email, telefono, codigo_postal, edad, sexo) values (1, 'Amelita', 'Castiblanco', 'acastiblanco0@bing.com', '9161389980', '35650-000', 64, 'Female');
 insert into Cliente (ClienteID, nombre, apellido, email, telefono, codigo_postal, edad, sexo) values (2, 'Jard', 'Templeton', 'jtempleton1@ameblo.jp', '4055298114', '981 22', 55, 'Male');
@@ -130,7 +130,7 @@ insert into Cliente (ClienteID, nombre, apellido, email, telefono, codigo_postal
 insert into Cliente (ClienteID, nombre, apellido, email, telefono, codigo_postal, edad, sexo) values (49, 'Julia', 'Mullinder', 'jmullinder1c@aboutads.info', '2414357854', '3730', 87, 'Female');
 insert into Cliente (ClienteID, nombre, apellido, email, telefono, codigo_postal, edad, sexo) values (50, 'Tuckie', 'Eschelle', 'teschelle1d@gizmodo.com', '2379768420', '1000-005', 91, 'Male');
 
--- Generación de datos: Delivery
+/* Generación de datos: Delivery */
 
 insert into Delivery (DeliveryID, Tipo, Estado) values (1, 'Wabi', 'Pedido Listo');
 insert into Delivery (DeliveryID, Tipo, Estado) values (2, 'másDelivery', 'En Camino');
@@ -183,180 +183,82 @@ insert into Delivery (DeliveryID, Tipo, Estado) values (48, 'Cabify', 'Pedido Li
 insert into Delivery (DeliveryID, Tipo, Estado) values (49, 'Cabify', 'Entregado');
 insert into Delivery (DeliveryID, Tipo, Estado) values (50, 'PedidosYa', 'Pedido Listo');
 
--- Generación de datos: Orden
-
-insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID) values (1, '2023-07-04', 1, 1, 1);
-insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID) values (2, '2023-05-02', 2, 2, 2);
-insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID) values (3, '2023-04-20', 3, 3, 3);
-insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID) values (4, '2023-02-12', 4, 4, 4);
-insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID) values (5, '2023-05-08', 5, 5, 5);
-insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID) values (6, '2023-05-15', 6, 6, 6);
-insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID) values (7, '2023-04-23', 7, 7, 1);
-insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID) values (8, '2023-02-08', 8, 8, 7);
-insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID) values (9, '2023-03-18', 9, 9, 8);
-insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID) values (10, '2023-11-22', 10, 10, 9);
-insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID) values (11, '2023-11-08', 11, 11, 4);
-insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID) values (12, '2023-05-18', 12, 12, 10);
-insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID) values (13, '2023-04-19', 13, 13, 5);
-insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID) values (14, '2023-04-20', 14, 14, 11);
-insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID) values (15, '2023-09-05', 15, 15, 2);
-insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID) values (16, '2023-05-26', 16, 16, 8);
-insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID) values (17, '2023-12-20', 17, 17, 9);
-insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID) values (18, '2023-03-16', 18, 18, 5);
-insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID) values (19, '2023-09-05', 19, 19, 12);
-insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID) values (20, '2023-08-08', 20, 20, 8);
-insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID) values (21, '2023-07-31', 21, 21, 6);
-insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID) values (22, '2023-08-21', 22, 22, 4);
-insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID) values (23, '2023-12-03', 23, 23, 7);
-insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID) values (24, '2023-04-15', 24, 24, 7);
-insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID) values (25, '2023-08-18', 25, 25, 3);
-insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID) values (26, '2023-04-14', 26, 26, 8);
-insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID) values (27, '2023-01-10', 27, 27, 12);
-insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID) values (28, '2023-07-23', 28, 28, 1);
-insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID) values (29, '2023-07-04', 29, 29, 6);
-insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID) values (30, '2023-03-19', 30, 30, 4);
-insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID) values (31, '2023-10-04', 31, 31, 3);
-insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID) values (32, '2023-06-19', 32, 32, 1);
-insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID) values (33, '2023-10-30', 33, 33, 2);
-insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID) values (34, '2023-01-30', 34, 34, 6);
-insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID) values (35, '2023-04-13', 35, 35, 3);
-insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID) values (36, '2023-08-05', 36, 36, 7);
-insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID) values (37, '2023-10-01', 37, 37, 11);
-insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID) values (38, '2023-06-08', 38, 38, 10);
-insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID) values (39, '2023-03-17', 39, 39, 10);
-insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID) values (40, '2023-05-29', 40, 40, 12);
-insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID) values (41, '2023-04-02', 41, 41, 11);
-insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID) values (42, '2023-08-07', 42, 42, 12);
-insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID) values (43, '2023-03-13', 43, 43, 3);
-insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID) values (44, '2023-09-27', 44, 44, 4);
-insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID) values (45, '2023-01-14', 45, 45, 5);
-insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID) values (46, '2023-08-16', 46, 46, 6);
-insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID) values (47, '2023-02-18', 47, 47, 7);
-insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID) values (48, '2023-09-02', 48, 48, 8);
-insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID) values (49, '2023-03-20', 49, 49, 9);
-insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID) values (50, '2023-07-30', 50, 50, 1);
-
-update Orden set Cantidad = 1 where OrdenID = 1;
-update Orden set Cantidad = 10 where OrdenID = 2;
-update Orden set Cantidad = 16 where OrdenID = 3;
-update Orden set Cantidad = 7 where OrdenID = 4;
-update Orden set Cantidad = 17 where OrdenID = 5;
-update Orden set Cantidad = 3 where OrdenID = 6;
-update Orden set Cantidad = 9 where OrdenID = 7;
-update Orden set Cantidad = 6 where OrdenID = 8;
-update Orden set Cantidad = 18 where OrdenID = 9;
-update Orden set Cantidad = 7 where OrdenID = 10;
-update Orden set Cantidad = 17 where OrdenID = 11;
-update Orden set Cantidad = 12 where OrdenID = 12;
-update Orden set Cantidad = 13 where OrdenID = 13;
-update Orden set Cantidad = 18 where OrdenID = 14;
-update Orden set Cantidad = 15 where OrdenID = 15;
-update Orden set Cantidad = 14 where OrdenID = 16;
-update Orden set Cantidad = 2 where OrdenID = 17;
-update Orden set Cantidad = 2 where OrdenID = 18;
-update Orden set Cantidad = 7 where OrdenID = 19;
-update Orden set Cantidad = 4 where OrdenID = 20;
-update Orden set Cantidad = 10 where OrdenID = 21;
-update Orden set Cantidad = 20 where OrdenID = 22;
-update Orden set Cantidad = 17 where OrdenID = 23;
-update Orden set Cantidad = 5 where OrdenID = 24;
-update Orden set Cantidad = 1 where OrdenID = 25;
-update Orden set Cantidad = 20 where OrdenID = 26;
-update Orden set Cantidad = 12 where OrdenID = 27;
-update Orden set Cantidad = 16 where OrdenID = 28;
-update Orden set Cantidad = 14 where OrdenID = 29;
-update Orden set Cantidad = 5 where OrdenID = 30;
-update Orden set Cantidad = 9 where OrdenID = 31;
-update Orden set Cantidad = 10 where OrdenID = 32;
-update Orden set Cantidad = 20 where OrdenID = 33;
-update Orden set Cantidad = 2 where OrdenID = 34;
-update Orden set Cantidad = 3 where OrdenID = 35;
-update Orden set Cantidad = 2 where OrdenID = 36;
-update Orden set Cantidad = 12 where OrdenID = 37;
-update Orden set Cantidad = 15 where OrdenID = 38;
-update Orden set Cantidad = 4 where OrdenID = 39;
-update Orden set Cantidad = 7 where OrdenID = 40;
-update Orden set Cantidad = 15 where OrdenID = 41;
-update Orden set Cantidad = 15 where OrdenID = 42;
-update Orden set Cantidad = 10 where OrdenID = 43;
-update Orden set Cantidad = 2 where OrdenID = 44;
-update Orden set Cantidad = 14 where OrdenID = 45;
-update Orden set Cantidad = 20 where OrdenID = 46;
-update Orden set Cantidad = 10 where OrdenID = 47;
-update Orden set Cantidad = 2 where OrdenID = 48;
-update Orden set Cantidad = 1 where OrdenID = 49;
-update Orden set Cantidad = 20 where OrdenID = 50;
-
--- Generación de datos: Categoria
+/* Generación de datos: Categoria */
 
 insert into Categoria (CategoriaID, Tipo) values (1, 'Platos preparados');
 insert into Categoria (CategoriaID, Tipo) values (2, 'Refrigerados');
 insert into Categoria (CategoriaID, Tipo) values (3, 'Congelados');
 
--- Generación de datos: Producto
+/* Generación de datos: Producto */
 
-insert into Producto (ProductoID, Nombre, CategoriaID) values (1, 'Empanadas', 1);
-insert into Producto (ProductoID, Nombre, CategoriaID) values (2, 'Sandwichs', 1);
-insert into Producto (ProductoID, Nombre, CategoriaID) values (3, 'Calzones', 1);
-insert into Producto (ProductoID, Nombre, CategoriaID) values (4, 'Carnes', 1);
-insert into Producto (ProductoID, Nombre, CategoriaID) values (5, 'Empanadas refrigeradas', 2);
-insert into Producto (ProductoID, Nombre, CategoriaID) values (6, 'Sandwichs refrigeradas', 2);
-insert into Producto (ProductoID, Nombre, CategoriaID) values (7, 'Calzones refrigeradas', 2);
-insert into Producto (ProductoID, Nombre, CategoriaID) values (8, 'Carnes refrigeradas', 2);
-insert into Producto (ProductoID, Nombre, CategoriaID) values (9, 'Empanadas congeladas', 3);
-insert into Producto (ProductoID, Nombre, CategoriaID) values (10, 'Sandwichs congeladas', 3);
-insert into Producto (ProductoID, Nombre, CategoriaID) values (11, 'Calzones congeladas', 3);
-insert into Producto (ProductoID, Nombre, CategoriaID) values (12, 'Carnes congeladas', 3);
+insert into Producto (ProductoID, Nombre, CategoriaID, Costo) values (1, 'Empanadas', 1, 3);
+insert into Producto (ProductoID, Nombre, CategoriaID, Costo) values (2, 'Sandwichs', 1, 4);
+insert into Producto (ProductoID, Nombre, CategoriaID, Costo) values (3, 'Calzones', 1, 7);
+insert into Producto (ProductoID, Nombre, CategoriaID, Costo) values (4, 'Carnes', 1, 9);
+insert into Producto (ProductoID, Nombre, CategoriaID, Costo) values (5, 'Empanadas refrigeradas', 2, 2);
+insert into Producto (ProductoID, Nombre, CategoriaID, Costo) values (6, 'Sandwichs refrigeradas', 2, 3);
+insert into Producto (ProductoID, Nombre, CategoriaID, Costo) values (7, 'Calzones refrigeradas', 2, 6);
+insert into Producto (ProductoID, Nombre, CategoriaID, Costo) values (8, 'Carnes refrigeradas', 2, 8);
+insert into Producto (ProductoID, Nombre, CategoriaID, Costo) values (9, 'Empanadas congeladas', 3, 1.5);
+insert into Producto (ProductoID, Nombre, CategoriaID, Costo) values (10, 'Sandwichs congeladas', 3, 2.5);
+insert into Producto (ProductoID, Nombre, CategoriaID, Costo) values (11, 'Calzones congeladas', 3, 5.5);
+insert into Producto (ProductoID, Nombre, CategoriaID, Costo) values (12, 'Carnes congeladas', 3, 7.5);
 
-update Producto 
-set Costo_Producto = 3
-where ProductoID = 1;
+/* Generación de datos: Orden */
 
-update Producto 
-set Costo_Producto = 4
-where ProductoID = 2;
+insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID, Cantidad) values (1, '2023-07-04', 1, 1, 1, 1);
+insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID, Cantidad) values (2, '2023-05-02', 2, 2, 2, 10);
+insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID, Cantidad) values (3, '2023-04-20', 3, 3, 3, 16);
+insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID, Cantidad) values (4, '2023-02-12', 4, 4, 4, 7);
+insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID, Cantidad) values (5, '2023-05-08', 5, 5, 5, 17);
+insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID, Cantidad) values (6, '2023-05-15', 6, 6, 6, 3);
+insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID, Cantidad) values (7, '2023-04-23', 7, 7, 1, 9);
+insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID, Cantidad) values (8, '2023-02-08', 8, 8, 7, 6);
+insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID, Cantidad) values (9, '2023-03-18', 9, 9, 8, 18);
+insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID, Cantidad) values (10, '2023-11-22', 10, 10, 9, 7);
+insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID, Cantidad) values (11, '2023-11-08', 11, 11, 4, 17);
+insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID, Cantidad) values (12, '2023-05-18', 12, 12, 10, 12);
+insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID, Cantidad) values (13, '2023-04-19', 13, 13, 5, 13);
+insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID, Cantidad) values (14, '2023-04-20', 14, 14, 11, 18);
+insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID, Cantidad) values (15, '2023-09-05', 15, 15, 2, 15);
+insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID, Cantidad) values (16, '2023-05-26', 16, 16, 8, 14);
+insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID, Cantidad) values (17, '2023-12-20', 17, 17, 9, 2);
+insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID, Cantidad) values (18, '2023-03-16', 18, 18, 5, 2);
+insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID, Cantidad) values (19, '2023-09-05', 19, 19, 12, 7);
+insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID, Cantidad) values (20, '2023-08-08', 20, 20, 8, 14);
+insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID, Cantidad) values (21, '2023-07-31', 21, 21, 6, 10);
+insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID, Cantidad) values (22, '2023-08-21', 22, 22, 4, 20);
+insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID, Cantidad) values (23, '2023-12-03', 23, 23, 7, 17);
+insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID, Cantidad) values (24, '2023-04-15', 24, 24, 7, 5);
+insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID, Cantidad) values (25, '2023-08-18', 25, 25, 3, 1);
+insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID, Cantidad) values (26, '2023-04-14', 26, 26, 8, 20);
+insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID, Cantidad) values (27, '2023-01-10', 27, 27, 12, 12);
+insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID, Cantidad) values (28, '2023-07-23', 28, 28, 1, 16);
+insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID, Cantidad) values (29, '2023-07-04', 29, 29, 6, 14);
+insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID, Cantidad) values (30, '2023-03-19', 30, 30, 4, 5);
+insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID, Cantidad) values (31, '2023-10-04', 31, 31, 3, 9);
+insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID, Cantidad) values (32, '2023-06-19', 32, 32, 1, 10);
+insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID, Cantidad) values (33, '2023-10-30', 33, 33, 2, 2);
+insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID, Cantidad) values (34, '2023-01-30', 34, 34, 6, 20);
+insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID, Cantidad) values (35, '2023-04-13', 35, 35, 3, 3);
+insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID, Cantidad) values (36, '2023-08-05', 36, 36, 7, 2);
+insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID, Cantidad) values (37, '2023-10-01', 37, 37, 11, 12);
+insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID, Cantidad) values (38, '2023-06-08', 38, 38, 10, 15);
+insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID, Cantidad) values (39, '2023-03-17', 39, 39, 10, 4);
+insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID, Cantidad) values (40, '2023-05-29', 40, 40, 12, 7);
+insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID, Cantidad) values (41, '2023-04-02', 41, 41, 11, 15);
+insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID, Cantidad) values (42, '2023-08-07', 42, 42, 12, 15);
+insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID, Cantidad) values (43, '2023-03-13', 43, 43, 3, 10);
+insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID, Cantidad) values (44, '2023-09-27', 44, 44, 4, 2);
+insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID, Cantidad) values (45, '2023-01-14', 45, 45, 5, 14);
+insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID, Cantidad) values (46, '2023-08-16', 46, 46, 6, 20);
+insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID, Cantidad) values (47, '2023-02-18', 47, 47, 7, 10);
+insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID, Cantidad) values (48, '2023-09-02', 48, 48, 8, 2);
+insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID, Cantidad) values (49, '2023-03-20', 49, 49, 9, 1);
+insert into Orden (OrdenID, Fecha, DeliveryID, ClienteID, ProductoID, Cantidad) values (50, '2023-07-30', 50, 50, 1, 20);
 
-update Producto 
-set Costo_Producto = 7
-where ProductoID = 3;
 
-update Producto 
-set Costo_Producto = 9
-where ProductoID = 4;
-
-update Producto 
-set Costo_Producto = 2
-where ProductoID = 5;
-
-update Producto 
-set Costo_Producto = 3
-where ProductoID = 6;
-
-update Producto 
-set Costo_Producto = 6
-where ProductoID = 7;
-
-update Producto 
-set Costo_Producto = 8
-where ProductoID = 8;
-
-update Producto 
-set Costo_Producto = 1.5
-where ProductoID = 9;
-
-update Producto 
-set Costo_Producto = 2.5
-where ProductoID = 10;
-
-update Producto 
-set Costo_Producto = 5.5
-where ProductoID = 11;
-
-update Producto 
-set Costo_Producto = 7.5
-where ProductoID = 12;
-
--- Vistas
+/* Vistas */
 
 CREATE OR REPLACE VIEW PROYECTO_FINAL.VW_PRODUCTO_CATEGORIA AS (
 
@@ -366,7 +268,7 @@ ON C.CategoriaID = P.CategoriaID
 
 );
 
-SELECT * FROM PROYECTO_FINAL.VW_PRODUCTO_CATEGORIA;
+-- SELECT * FROM PROYECTO_FINAL.VW_PRODUCTO_CATEGORIA;
 
 CREATE OR REPLACE VIEW PROYECTO_FINAL.VW_ORDEN_CLIENTE AS (
 
@@ -376,7 +278,7 @@ ON O.ClienteID = C.ClienteID
 
 );
 
-SELECT * FROM PROYECTO_FINAL.VW_ORDEN_CLIENTE;
+-- SELECT * FROM PROYECTO_FINAL.VW_ORDEN_CLIENTE;
 
 CREATE OR REPLACE VIEW PROYECTO_FINAL.VW_ORDEN_DELIVERY AS (
 
@@ -386,7 +288,7 @@ ON O.DeliveryID = D.DeliveryID
 
 );
 
-SELECT * FROM PROYECTO_FINAL.VW_ORDEN_DELIVERY;
+-- SELECT * FROM PROYECTO_FINAL.VW_ORDEN_DELIVERY;
 
 CREATE OR REPLACE VIEW PROYECTO_FINAL.VW_ORDEN_PRODUCTO AS (
 
@@ -396,9 +298,7 @@ ON O.ProductoID = P.ProductoID
 
 );
 
-SELECT * FROM PROYECTO_FINAL.VW_ORDEN_PRODUCTO;
-
--- nombre productos group by con count(ordenID)
+-- SELECT * FROM PROYECTO_FINAL.VW_ORDEN_PRODUCTO;
 
 CREATE OR REPLACE VIEW PROYECTO_FINAL.VW_PRODUCTO_ORDEN_COUNT AS (
 
@@ -408,9 +308,9 @@ ON O.ProductoID = P.ProductoID
 group by P.Nombre
 );
 
-SELECT * FROM PROYECTO_FINAL.VW_PRODUCTO_ORDEN_COUNT;
+-- SELECT * FROM PROYECTO_FINAL.VW_PRODUCTO_ORDEN_COUNT;
 
--- Function (1)
+/* Function (1) */
 
 DELIMITER $$ 
 CREATE FUNCTION FN_CALCULAR_MONTO( P_CANTIDAD INT ,
@@ -429,9 +329,9 @@ DELIMITER ;
 
 SELECT FN_CALCULAR_MONTO(7, 8) AS V_RESULTADO;
 
--- Function (2)
+/* Function (2) */
 
-DROP FUNCTION IF EXISTS FN_TOTAL_MONTO_ORDENES_IGUALES;
+-- DROP FUNCTION IF EXISTS FN_TOTAL_MONTO_ORDENES_IGUALES;
 
 DELIMITER $$ 
 CREATE FUNCTION FN_CALCULAR_TOTAL_ORDENES_IGUALES( P_CANTIDAD INT ,
@@ -450,7 +350,7 @@ DELIMITER ;
 
 SELECT FN_CALCULAR_TOTAL_ORDENES_IGUALES(7, 8, 3) AS V_TOTAL;
 
--- Stored Procedure (1)
+/* Stored Procedure (1) */
 
 -- DROP PROCEDURE IF EXISTS PROYECTO_FINAL.SP_DELIVERY_ESTADO;
 
@@ -469,7 +369,7 @@ DELIMITER ;
 
 CALL PROYECTO_FINAL.SP_DELIVERY_ESTADO('Estado', 'DESC');
 
--- Stored Procedure (2)
+/* Stored Procedure (2) */
 
 -- DROP PROCEDURE IF EXISTS PROYECTO_FINAL.SP_CLIENTE_INSERT;
 
@@ -486,3 +386,70 @@ DELIMITER ;
 CALL PROYECTO_FINAL.SP_DELIVERY_INSERT('PedidosYa', 'En Camino');
 
 SELECT * FROM PROYECTO_FINAL.Delivery;
+
+/* Trigger (1) */
+
+-- drop table if  exists LOG_01;
+CREATE TABLE IF NOT EXISTS LOG_01 (
+	LogID INT AUTO_INCREMENT,
+	Accion VARCHAR(10),
+	Tabla VARCHAR(50),
+	Usuario VARCHAR(100),
+	Fecha DATE,
+	PRIMARY KEY (LogID)) ;
+    
+-- DROP TRIGGER IF EXISTS TRG_LOG_ORDEN;  
+    
+DELIMITER //
+
+CREATE TRIGGER TRG_LOG_DELIVERY BEFORE INSERT ON PROYECTO_FINAL.Delivery
+FOR EACH ROW
+	BEGIN
+		INSERT INTO LOG_01(Accion, Tabla, Usuario, Fecha)
+        VALUES ('INSERT', 'Delivery', current_user(), NOW());
+	END//
+
+DELIMITER ;
+
+INSERT INTO Delivery (Tipo, Estado)
+VALUES ('Wabi', 'Entregado');
+
+SELECT * FROM LOG_01;
+
+/* Trigger (2) */
+
+-- drop table if exists LOG_02;
+CREATE TABLE IF NOT EXISTS LOG_CLIENTE (
+	LogClienteID INT AUTO_INCREMENT,
+	nombre varchar(100) DEFAULT NULL,
+	ClienteID int NOT NULL ,
+	Accion VARCHAR(10),
+	Tabla VARCHAR(50),
+	Usuario VARCHAR(100),
+	Fecha DATE,
+	PRIMARY KEY (LogClienteID)) ;
+    
+-- SELECT * FROM LOG_CLIENTE;
+    
+-- DROP TRIGGER IF EXISTS TRG_LOG_CLIENTE;  
+    
+DELIMITER //
+
+CREATE TRIGGER TRG_LOG_CLIENTE AFTER UPDATE ON PROYECTO_FINAL.Cliente
+FOR EACH ROW
+	BEGIN
+		INSERT INTO LOG_CLIENTE(nombre, ClienteID, Accion, Tabla, Usuario, Fecha)
+        VALUES (CONCAT('Campo anterior: ', OLD.nombre, ' - Campo nuevo: ', NEW.nombre),
+				NEW.ClienteID,
+                'UPDATE',
+                'Cliente',
+                current_user(),
+                now()) ;
+	END//
+
+DELIMITER ;
+
+UPDATE PROYECTO_FINAL.Cliente SET nombre = 'Tomás' WHERE ClienteID = 50 ;
+
+SELECT * FROM Cliente;
+SELECT * FROM LOG_CLIENTE;
