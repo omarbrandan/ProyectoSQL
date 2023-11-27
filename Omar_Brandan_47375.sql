@@ -19,6 +19,14 @@ primary key(ClienteID)
 ALTER TABLE Cliente MODIFY telefono VARCHAR(10) not null;
 ALTER TABLE Cliente MODIFY codigo_postal VARCHAR(10);
 ALTER TABLE Cliente MODIFY sexo VARCHAR(20);
+ALTER TABLE Cliente MODIFY sexo ENUM('Female', 'Male', 'Non-binary', 'Polygender', 'Genderqueer', 'Bigender');
+ALTER TABLE Cliente RENAME COLUMN nombre TO Nombre;
+ALTER TABLE Cliente RENAME COLUMN apellido TO Apellido;
+ALTER TABLE Cliente RENAME COLUMN email TO Email;
+ALTER TABLE Cliente RENAME COLUMN telefono TO Telefono;
+ALTER TABLE Cliente RENAME COLUMN codigo_postal TO CP;
+ALTER TABLE Cliente RENAME COLUMN edad TO Edad;
+ALTER TABLE Cliente RENAME COLUMN sexo TO Sexo;
 
 -- DROP TABLE Cliente;
 
