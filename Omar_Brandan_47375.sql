@@ -461,3 +461,23 @@ UPDATE PROYECTO_FINAL.Cliente SET nombre = 'Tomás' WHERE ClienteID = 50 ;
 
 SELECT * FROM Cliente;
 SELECT * FROM LOG_CLIENTE;
+
+/* DCL */
+
+CREATE USER IF NOT EXISTS 'carlosI'@'localhost' IDENTIFIED BY 'coderhouse';
+GRANT SELECT ON PROYECTO_FINAL.Categoria TO 'carlosI'@'localhost';
+GRANT SELECT ON PROYECTO_FINAL.Cliente TO 'carlosI'@'localhost';
+GRANT SELECT ON PROYECTO_FINAL.Delivery TO 'carlosI'@'localhost';
+GRANT SELECT ON PROYECTO_FINAL.Orden TO 'carlosI'@'localhost';
+GRANT SELECT ON PROYECTO_FINAL.Producto TO 'carlosI'@'localhost';
+
+CREATE USER IF NOT EXISTS 'luisA'@'localhost' IDENTIFIED BY 'Code159';
+GRANT SELECT, INSERT, UPDATE ON PROYECTO_FINAL.Categoria TO 'luisA'@'localhost';
+GRANT SELECT, INSERT, UPDATE ON PROYECTO_FINAL.Cliente TO 'luisA'@'localhost';
+GRANT SELECT, INSERT, UPDATE ON PROYECTO_FINAL.Delivery TO 'luisA'@'localhost';
+GRANT SELECT, INSERT, UPDATE ON PROYECTO_FINAL.Orden TO 'luisA'@'localhost';
+GRANT SELECT, INSERT, UPDATE ON PROYECTO_FINAL.Producto TO 'luisA'@'localhost';
+
+USE mysql;
+SELECT * FROM user WHERE user = 'carlosI';
+SELECT * FROM user WHERE user = 'luisA';
