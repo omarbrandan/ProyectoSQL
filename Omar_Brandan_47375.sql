@@ -484,6 +484,9 @@ SELECT * FROM user WHERE user = 'luisA';
 
 /* TCL */
 
+SELECT @@autocommit;
+SET @@autocommit = 0;
+
 START TRANSACTION;
 DELETE FROM Delivery WHERE DeliveryID = 3;
 DELETE FROM Delivery WHERE DeliveryID = 7;
