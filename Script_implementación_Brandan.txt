@@ -1,7 +1,15 @@
 Para implementar la BBDD, es necesario compilar en el siguiente orden los archivos
 listados a continuación:
 
-1º carpeta Tables con múltiples archivos.sql: creación de Schema y Tables, e inserción de datos;
+1º carpeta Tables con múltiples archivos.sql: creación de Schema y Tables, e inserción de datos:
+	PROYECTO_FINAL_Cliente.sql
+	PROYECTO_FINAL_Delivery.sql
+	PROYECTO_FINAL_Categoria.sql
+	PROYECTO_FINAL_Producto.sql
+	PROYECTO_FINAL_Orden.sql
+	
 2º views.sql: Views del proyecto;
+
 3º functions&SPs.sql: Functions y Stored Procedures;
+
 4º triggers.sql: Triggers;
